@@ -1,0 +1,58 @@
+{% extends 'sakila_app/base.html' %}
+
+{% block title %}Staff - Sakila{% endblock %}
+
+{% block content %}
+<h1>직원 목록</h1>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>이름</th>
+                <th>성</th>
+                <th>이메일</th>
+                <th>매장</th>
+                <th>활성</th>
+                <th>사용자명</th>
+                <th>상세</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for staff in staff_members %}
+            <tr>
+                <td>{{ staff.staff_id }}</td>
+                <td>{{ staff.first_name }}</td>
+                <td>{{ staff.last_name }}</td>
+                <td>{{ staff.email|default:"-" }}</td>
+                <td>{{ staff.store }}</td>
+                <td>{{ staff.active }}</td>
+                <td>{{ staff.username }}</td>
+                <td><a href="{% url 'sakila_app:staff_detail' staff.staff_id %}" class="button">상세보기</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8" style="text-align: center;">데이터가 없습니다.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if is_paginated %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page=1">처음</a>
+        <a href="?page={{ page_obj.previous_page_number }}">이전</a>
+    {% endif %}
+
+    <span class="current">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">다음</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">마지막</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

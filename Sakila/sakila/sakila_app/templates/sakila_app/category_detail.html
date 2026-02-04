@@ -1,0 +1,29 @@
+{% extends 'sakila_app/base.html' %}
+
+{% block title %}{{ category.name }} - Sakila{% endblock %}
+
+{% block content %}
+<h1>카테고리 상세 정보</h1>
+
+<div class="card">
+    <h2>{{ category.name }}</h2>
+    <table>
+        <tr>
+            <th style="width: 200px;">ID</th>
+            <td>{{ category.category_id }}</td>
+        </tr>
+        <tr>
+            <th>이름</th>
+            <td>{{ category.name }}</td>
+        </tr>
+        <tr>
+            <th>마지막 업데이트</th>
+            <td>{{ category.last_update|date:"Y-m-d H:i:s" }}</td>
+        </tr>
+    </table>
+
+    <div style="margin-top: 1rem;">
+        <a href="{% url 'sakila_app:category_list' %}" class="button">목록으로</a>
+    </div>
+</div>
+{% endblock %}

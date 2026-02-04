@@ -1,0 +1,33 @@
+{% extends 'sakila_app/base.html' %}
+
+{% block title %}Inventory {{ inventory.inventory_id }} - Sakila{% endblock %}
+
+{% block content %}
+<h1>인벤토리 상세 정보</h1>
+
+<div class="card">
+    <h2>Inventory {{ inventory.inventory_id }}</h2>
+    <table>
+        <tr>
+            <th style="width: 200px;">ID</th>
+            <td>{{ inventory.inventory_id }}</td>
+        </tr>
+        <tr>
+            <th>영화</th>
+            <td><a href="{% url 'sakila_app:film_detail' inventory.film.film_id %}">{{ inventory.film }}</a></td>
+        </tr>
+        <tr>
+            <th>매장</th>
+            <td><a href="{% url 'sakila_app:store_detail' inventory.store.store_id %}">{{ inventory.store }}</a></td>
+        </tr>
+        <tr>
+            <th>마지막 업데이트</th>
+            <td>{{ inventory.last_update|date:"Y-m-d H:i:s" }}</td>
+        </tr>
+    </table>
+
+    <div style="margin-top: 1rem;">
+        <a href="{% url 'sakila_app:inventory_list' %}" class="button">목록으로</a>
+    </div>
+</div>
+{% endblock %}

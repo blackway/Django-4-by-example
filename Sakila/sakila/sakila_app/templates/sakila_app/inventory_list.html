@@ -1,0 +1,52 @@
+{% extends 'sakila_app/base.html' %}
+
+{% block title %}Inventory - Sakila{% endblock %}
+
+{% block content %}
+<h1>인벤토리 목록</h1>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>영화</th>
+                <th>매장</th>
+                <th>마지막 업데이트</th>
+                <th>상세</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inventory in inventories %}
+            <tr>
+                <td>{{ inventory.inventory_id }}</td>
+                <td><a href="{% url 'sakila_app:film_detail' inventory.film.film_id %}">{{ inventory.film }}</a></td>
+                <td><a href="{% url 'sakila_app:store_detail' inventory.store.store_id %}">{{ inventory.store }}</a></td>
+                <td>{{ inventory.last_update|date:"Y-m-d H:i" }}</td>
+                <td><a href="{% url 'sakila_app:inventory_detail' inventory.inventory_id %}" class="button">상세보기</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" style="text-align: center;">데이터가 없습니다.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if is_paginated %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page=1">처음</a>
+        <a href="?page={{ page_obj.previous_page_number }}">이전</a>
+    {% endif %}
+
+    <span class="current">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">다음</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">마지막</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

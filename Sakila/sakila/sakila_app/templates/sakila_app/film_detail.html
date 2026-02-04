@@ -1,0 +1,99 @@
+{% extends 'sakila_app/base.html' %}
+
+{% block title %}{{ film.title }} - Sakila{% endblock %}
+
+{% block content %}
+<h1>영화 상세 정보</h1>
+
+<div class="card">
+    <h2>{{ film.title }}</h2>
+    <table>
+        <tr>
+            <th style="width: 200px;">ID</th>
+            <td>{{ film.film_id }}</td>
+        </tr>
+        <tr>
+            <th>제목</th>
+            <td>{{ film.title }}</td>
+        </tr>
+        <tr>
+            <th>설명</th>
+            <td>{{ film.description|default:"설명 없음" }}</td>
+        </tr>
+        <tr>
+            <th>개봉년도</th>
+            <td>{{ film.release_year|default:"-" }}</td>
+        </tr>
+        <tr>
+            <th>언어</th>
+            <td>{{ film.language }}</td>
+        </tr>
+        <tr>
+            <th>원본 언어</th>
+            <td>{{ film.original_language|default:"-" }}</td>
+        </tr>
+        <tr>
+            <th>대여 기간</th>
+            <td>{{ film.rental_duration }}일</td>
+        </tr>
+        <tr>
+            <th>대여료</th>
+            <td>${{ film.rental_rate }}</td>
+        </tr>
+        <tr>
+            <th>길이</th>
+            <td>{{ film.length|default:"-" }}분</td>
+        </tr>
+        <tr>
+            <th>교체 비용</th>
+            <td>${{ film.replacement_cost }}</td>
+        </tr>
+        <tr>
+            <th>등급</th>
+            <td>{{ film.rating|default:"-" }}</td>
+        </tr>
+        <tr>
+            <th>특별 기능</th>
+            <td>{{ film.special_features|default:"-" }}</td>
+        </tr>
+        <tr>
+            <th>마지막 업데이트</th>
+            <td>{{ film.last_update|date:"Y-m-d H:i:s" }}</td>
+        </tr>
+    </table>
+
+    <div style="margin-top: 1rem;">
+        <a href="{% url 'sakila_app:film_list' %}" class="button">목록으로</a>
+    </div>
+</div>
+
+<div class="card">
+    <h3>출연 배우</h3>
+    {% with actors=film.film_actors.all %}
+        {% if actors %}
+            <ul>
+            {% for film_actor in actors %}
+                <li><a href="{% url 'sakila_app:actor_detail' film_actor.actor.actor_id %}">{{ film_actor.actor }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>출연 배우 정보가 없습니다.</p>
+        {% endif %}
+    {% endwith %}
+</div>
+
+<div class="card">
+    <h3>카테고리</h3>
+    {% with categories=film.film_categories.all %}
+        {% if categories %}
+            <ul>
+            {% for film_category in categories %}
+                <li><a href="{% url 'sakila_app:category_detail' film_category.category.category_id %}">{{ film_category.category }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>카테고리 정보가 없습니다.</p>
+        {% endif %}
+    {% endwith %}
+</div>
+{% endblock %}

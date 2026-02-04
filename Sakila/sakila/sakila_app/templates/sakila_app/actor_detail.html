@@ -1,0 +1,48 @@
+{% extends 'sakila_app/base.html' %}
+
+{% block title %}{{ actor }} - Sakila{% endblock %}
+
+{% block content %}
+<h1>배우 상세 정보</h1>
+
+<div class="card">
+    <h2>{{ actor.first_name }} {{ actor.last_name }}</h2>
+    <table>
+        <tr>
+            <th style="width: 200px;">ID</th>
+            <td>{{ actor.actor_id }}</td>
+        </tr>
+        <tr>
+            <th>이름</th>
+            <td>{{ actor.first_name }}</td>
+        </tr>
+        <tr>
+            <th>성</th>
+            <td>{{ actor.last_name }}</td>
+        </tr>
+        <tr>
+            <th>마지막 업데이트</th>
+            <td>{{ actor.last_update|date:"Y-m-d H:i:s" }}</td>
+        </tr>
+    </table>
+
+    <div style="margin-top: 1rem;">
+        <a href="{% url 'sakila_app:actor_list' %}" class="button">목록으로</a>
+    </div>
+</div>
+
+<div class="card">
+    <h3>출연 영화</h3>
+    {% with films=actor.film_actors.all %}
+        {% if films %}
+            <ul>
+            {% for film_actor in films %}
+                <li><a href="{% url 'sakila_app:film_detail' film_actor.film.film_id %}">{{ film_actor.film.title }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>출연 영화가 없습니다.</p>
+        {% endif %}
+    {% endwith %}
+</div>
+{% endblock %}

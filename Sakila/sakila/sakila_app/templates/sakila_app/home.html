@@ -1,0 +1,18 @@
+{% extends 'sakila_app/base.html' %}
+
+{% block title %}Sakila Database - Home{% endblock %}
+
+{% block content %}
+<h1>Sakila Database Management System</h1>
+<p style="margin-bottom: 2rem; color: #7f8c8d;">영화 대여점 데이터베이스 관리 시스템입니다. 아래에서 각 테이블의 데이터를 조회할 수 있습니다.</p>
+
+<div class="grid">
+    {% for model in models %}
+    <div class="grid-item">
+        <h3>{{ model.name }}</h3>
+        <p style="color: #7f8c8d; margin-bottom: 1rem;">총 <span class="badge">{{ model.count }}</span> 개</p>
+        <a href="{% url 'sakila_app:'|add:model.url %}">조회하기 →</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

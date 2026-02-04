@@ -1,0 +1,49 @@
+{% extends 'sakila_app/base.html' %}
+
+{% block title %}Address {{ address.address_id }} - Sakila{% endblock %}
+
+{% block content %}
+<h1>주소 상세 정보</h1>
+
+<div class="card">
+    <h2>{{ address.address }}</h2>
+    <table>
+        <tr>
+            <th style="width: 200px;">ID</th>
+            <td>{{ address.address_id }}</td>
+        </tr>
+        <tr>
+            <th>주소</th>
+            <td>{{ address.address }}</td>
+        </tr>
+        <tr>
+            <th>주소 2</th>
+            <td>{{ address.address2|default:"-" }}</td>
+        </tr>
+        <tr>
+            <th>지역</th>
+            <td>{{ address.district }}</td>
+        </tr>
+        <tr>
+            <th>도시</th>
+            <td><a href="{% url 'sakila_app:city_detail' address.city.city_id %}">{{ address.city }}</a></td>
+        </tr>
+        <tr>
+            <th>우편번호</th>
+            <td>{{ address.postal_code|default:"-" }}</td>
+        </tr>
+        <tr>
+            <th>전화번호</th>
+            <td>{{ address.phone }}</td>
+        </tr>
+        <tr>
+            <th>마지막 업데이트</th>
+            <td>{{ address.last_update|date:"Y-m-d H:i:s" }}</td>
+        </tr>
+    </table>
+
+    <div style="margin-top: 1rem;">
+        <a href="{% url 'sakila_app:address_list' %}" class="button">목록으로</a>
+    </div>
+</div>
+{% endblock %}

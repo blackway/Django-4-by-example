@@ -1,0 +1,33 @@
+{% extends 'sakila_app/base.html' %}
+
+{% block title %}Store {{ store.store_id }} - Sakila{% endblock %}
+
+{% block content %}
+<h1>매장 상세 정보</h1>
+
+<div class="card">
+    <h2>Store {{ store.store_id }}</h2>
+    <table>
+        <tr>
+            <th style="width: 200px;">ID</th>
+            <td>{{ store.store_id }}</td>
+        </tr>
+        <tr>
+            <th>관리자</th>
+            <td><a href="{% url 'sakila_app:staff_detail' store.manager_staff.staff_id %}">{{ store.manager_staff }}</a></td>
+        </tr>
+        <tr>
+            <th>주소</th>
+            <td><a href="{% url 'sakila_app:address_detail' store.address.address_id %}">{{ store.address }}</a></td>
+        </tr>
+        <tr>
+            <th>마지막 업데이트</th>
+            <td>{{ store.last_update|date:"Y-m-d H:i:s" }}</td>
+        </tr>
+    </table>
+
+    <div style="margin-top: 1rem;">
+        <a href="{% url 'sakila_app:store_list' %}" class="button">목록으로</a>
+    </div>
+</div>
+{% endblock %}

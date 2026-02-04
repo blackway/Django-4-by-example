@@ -1,0 +1,29 @@
+{% extends 'sakila_app/base.html' %}
+
+{% block title %}{{ country.country }} - Sakila{% endblock %}
+
+{% block content %}
+<h1>국가 상세 정보</h1>
+
+<div class="card">
+    <h2>{{ country.country }}</h2>
+    <table>
+        <tr>
+            <th style="width: 200px;">ID</th>
+            <td>{{ country.country_id }}</td>
+        </tr>
+        <tr>
+            <th>국가</th>
+            <td>{{ country.country }}</td>
+        </tr>
+        <tr>
+            <th>마지막 업데이트</th>
+            <td>{{ country.last_update|date:"Y-m-d H:i:s"|default:"-" }}</td>
+        </tr>
+    </table>
+
+    <div style="margin-top: 1rem;">
+        <a href="{% url 'sakila_app:country_list' %}" class="button">목록으로</a>
+    </div>
+</div>
+{% endblock %}

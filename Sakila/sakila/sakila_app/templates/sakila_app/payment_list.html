@@ -1,0 +1,54 @@
+{% extends 'sakila_app/base.html' %}
+
+{% block title %}Payments - Sakila{% endblock %}
+
+{% block content %}
+<h1>결제 목록</h1>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>고객</th>
+                <th>직원</th>
+                <th>금액</th>
+                <th>결제일</th>
+                <th>상세</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for payment in payments %}
+            <tr>
+                <td>{{ payment.payment_id }}</td>
+                <td><a href="{% url 'sakila_app:customer_detail' payment.customer.customer_id %}">{{ payment.customer }}</a></td>
+                <td>{{ payment.staff }}</td>
+                <td>${{ payment.amount }}</td>
+                <td>{{ payment.payment_date|date:"Y-m-d H:i" }}</td>
+                <td><a href="{% url 'sakila_app:payment_detail' payment.payment_id %}" class="button">상세보기</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" style="text-align: center;">데이터가 없습니다.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if is_paginated %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page=1">처음</a>
+        <a href="?page={{ page_obj.previous_page_number }}">이전</a>
+    {% endif %}
+
+    <span class="current">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">다음</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">마지막</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

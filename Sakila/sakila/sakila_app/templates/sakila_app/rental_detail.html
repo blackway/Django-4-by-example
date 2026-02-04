@@ -1,0 +1,45 @@
+{% extends 'sakila_app/base.html' %}
+
+{% block title %}Rental {{ rental.rental_id }} - Sakila{% endblock %}
+
+{% block content %}
+<h1>대여 상세 정보</h1>
+
+<div class="card">
+    <h2>Rental {{ rental.rental_id }}</h2>
+    <table>
+        <tr>
+            <th style="width: 200px;">ID</th>
+            <td>{{ rental.rental_id }}</td>
+        </tr>
+        <tr>
+            <th>대여일</th>
+            <td>{{ rental.rental_date|date:"Y-m-d H:i:s" }}</td>
+        </tr>
+        <tr>
+            <th>반납일</th>
+            <td>{{ rental.return_date|date:"Y-m-d H:i:s"|default:"미반납" }}</td>
+        </tr>
+        <tr>
+            <th>고객</th>
+            <td><a href="{% url 'sakila_app:customer_detail' rental.customer.customer_id %}">{{ rental.customer }}</a></td>
+        </tr>
+        <tr>
+            <th>인벤토리</th>
+            <td><a href="{% url 'sakila_app:inventory_detail' rental.inventory.inventory_id %}">{{ rental.inventory }}</a></td>
+        </tr>
+        <tr>
+            <th>직원</th>
+            <td><a href="{% url 'sakila_app:staff_detail' rental.staff.staff_id %}">{{ rental.staff }}</a></td>
+        </tr>
+        <tr>
+            <th>마지막 업데이트</th>
+            <td>{{ rental.last_update|date:"Y-m-d H:i:s" }}</td>
+        </tr>
+    </table>
+
+    <div style="margin-top: 1rem;">
+        <a href="{% url 'sakila_app:rental_list' %}" class="button">목록으로</a>
+    </div>
+</div>
+{% endblock %}

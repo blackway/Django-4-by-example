@@ -1,0 +1,51 @@
+{% extends 'sakila_app/base.html' %}
+
+{% block title %}Payment {{ payment.payment_id }} - Sakila{% endblock %}
+
+{% block content %}
+<h1>결제 상세 정보</h1>
+
+<div class="card">
+    <h2>Payment {{ payment.payment_id }}</h2>
+    <table>
+        <tr>
+            <th style="width: 200px;">ID</th>
+            <td>{{ payment.payment_id }}</td>
+        </tr>
+        <tr>
+            <th>고객</th>
+            <td><a href="{% url 'sakila_app:customer_detail' payment.customer.customer_id %}">{{ payment.customer }}</a></td>
+        </tr>
+        <tr>
+            <th>직원</th>
+            <td><a href="{% url 'sakila_app:staff_detail' payment.staff.staff_id %}">{{ payment.staff }}</a></td>
+        </tr>
+        <tr>
+            <th>대여</th>
+            <td>
+                {% if payment.rental %}
+                    <a href="{% url 'sakila_app:rental_detail' payment.rental.rental_id %}">Rental {{ payment.rental.rental_id }}</a>
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>금액</th>
+            <td>${{ payment.amount }}</td>
+        </tr>
+        <tr>
+            <th>결제일</th>
+            <td>{{ payment.payment_date|date:"Y-m-d H:i:s" }}</td>
+        </tr>
+        <tr>
+            <th>마지막 업데이트</th>
+            <td>{{ payment.last_update|date:"Y-m-d H:i:s" }}</td>
+        </tr>
+    </table>
+
+    <div style="margin-top: 1rem;">
+        <a href="{% url 'sakila_app:payment_list' %}" class="button">목록으로</a>
+    </div>
+</div>
+{% endblock %}

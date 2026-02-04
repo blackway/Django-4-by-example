@@ -1,0 +1,33 @@
+{% extends 'sakila_app/base.html' %}
+
+{% block title %}{{ city.city }} - Sakila{% endblock %}
+
+{% block content %}
+<h1>도시 상세 정보</h1>
+
+<div class="card">
+    <h2>{{ city.city }}</h2>
+    <table>
+        <tr>
+            <th style="width: 200px;">ID</th>
+            <td>{{ city.city_id }}</td>
+        </tr>
+        <tr>
+            <th>도시</th>
+            <td>{{ city.city }}</td>
+        </tr>
+        <tr>
+            <th>국가</th>
+            <td><a href="{% url 'sakila_app:country_detail' city.country.country_id %}">{{ city.country }}</a></td>
+        </tr>
+        <tr>
+            <th>마지막 업데이트</th>
+            <td>{{ city.last_update|date:"Y-m-d H:i:s" }}</td>
+        </tr>
+    </table>
+
+    <div style="margin-top: 1rem;">
+        <a href="{% url 'sakila_app:city_list' %}" class="button">목록으로</a>
+    </div>
+</div>
+{% endblock %}

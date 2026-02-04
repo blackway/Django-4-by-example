@@ -1,0 +1,29 @@
+{% extends 'sakila_app/base.html' %}
+
+{% block title %}{{ language.name }} - Sakila{% endblock %}
+
+{% block content %}
+<h1>언어 상세 정보</h1>
+
+<div class="card">
+    <h2>{{ language.name }}</h2>
+    <table>
+        <tr>
+            <th style="width: 200px;">ID</th>
+            <td>{{ language.language_id }}</td>
+        </tr>
+        <tr>
+            <th>이름</th>
+            <td>{{ language.name }}</td>
+        </tr>
+        <tr>
+            <th>마지막 업데이트</th>
+            <td>{{ language.last_update|date:"Y-m-d H:i:s" }}</td>
+        </tr>
+    </table>
+
+    <div style="margin-top: 1rem;">
+        <a href="{% url 'sakila_app:language_list' %}" class="button">목록으로</a>
+    </div>
+</div>
+{% endblock %}

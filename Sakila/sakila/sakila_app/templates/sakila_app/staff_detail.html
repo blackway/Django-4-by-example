@@ -1,0 +1,53 @@
+{% extends 'sakila_app/base.html' %}
+
+{% block title %}{{ staff }} - Sakila{% endblock %}
+
+{% block content %}
+<h1>직원 상세 정보</h1>
+
+<div class="card">
+    <h2>{{ staff.first_name }} {{ staff.last_name }}</h2>
+    <table>
+        <tr>
+            <th style="width: 200px;">ID</th>
+            <td>{{ staff.staff_id }}</td>
+        </tr>
+        <tr>
+            <th>이름</th>
+            <td>{{ staff.first_name }}</td>
+        </tr>
+        <tr>
+            <th>성</th>
+            <td>{{ staff.last_name }}</td>
+        </tr>
+        <tr>
+            <th>이메일</th>
+            <td>{{ staff.email|default:"-" }}</td>
+        </tr>
+        <tr>
+            <th>주소</th>
+            <td><a href="{% url 'sakila_app:address_detail' staff.address.address_id %}">{{ staff.address }}</a></td>
+        </tr>
+        <tr>
+            <th>매장</th>
+            <td><a href="{% url 'sakila_app:store_detail' staff.store.store_id %}">{{ staff.store }}</a></td>
+        </tr>
+        <tr>
+            <th>활성</th>
+            <td>{{ staff.active }}</td>
+        </tr>
+        <tr>
+            <th>사용자명</th>
+            <td>{{ staff.username }}</td>
+        </tr>
+        <tr>
+            <th>마지막 업데이트</th>
+            <td>{{ staff.last_update|date:"Y-m-d H:i:s" }}</td>
+        </tr>
+    </table>
+
+    <div style="margin-top: 1rem;">
+        <a href="{% url 'sakila_app:staff_list' %}" class="button">목록으로</a>
+    </div>
+</div>
+{% endblock %}

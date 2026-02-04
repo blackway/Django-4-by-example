@@ -1,0 +1,53 @@
+{% extends 'sakila_app/base.html' %}
+
+{% block title %}{{ customer }} - Sakila{% endblock %}
+
+{% block content %}
+<h1>고객 상세 정보</h1>
+
+<div class="card">
+    <h2>{{ customer.first_name }} {{ customer.last_name }}</h2>
+    <table>
+        <tr>
+            <th style="width: 200px;">ID</th>
+            <td>{{ customer.customer_id }}</td>
+        </tr>
+        <tr>
+            <th>이름</th>
+            <td>{{ customer.first_name }}</td>
+        </tr>
+        <tr>
+            <th>성</th>
+            <td>{{ customer.last_name }}</td>
+        </tr>
+        <tr>
+            <th>이메일</th>
+            <td>{{ customer.email|default:"-" }}</td>
+        </tr>
+        <tr>
+            <th>매장</th>
+            <td><a href="{% url 'sakila_app:store_detail' customer.store.store_id %}">{{ customer.store }}</a></td>
+        </tr>
+        <tr>
+            <th>주소</th>
+            <td><a href="{% url 'sakila_app:address_detail' customer.address.address_id %}">{{ customer.address }}</a></td>
+        </tr>
+        <tr>
+            <th>활성</th>
+            <td>{{ customer.active }}</td>
+        </tr>
+        <tr>
+            <th>생성일</th>
+            <td>{{ customer.create_date|date:"Y-m-d H:i:s" }}</td>
+        </tr>
+        <tr>
+            <th>마지막 업데이트</th>
+            <td>{{ customer.last_update|date:"Y-m-d H:i:s" }}</td>
+        </tr>
+    </table>
+
+    <div style="margin-top: 1rem;">
+        <a href="{% url 'sakila_app:customer_list' %}" class="button">목록으로</a>
+    </div>
+</div>
+{% endblock %}

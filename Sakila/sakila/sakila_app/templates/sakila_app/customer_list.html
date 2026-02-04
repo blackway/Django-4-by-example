@@ -1,0 +1,58 @@
+{% extends 'sakila_app/base.html' %}
+
+{% block title %}Customers - Sakila{% endblock %}
+
+{% block content %}
+<h1>고객 목록</h1>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>이름</th>
+                <th>성</th>
+                <th>이메일</th>
+                <th>매장</th>
+                <th>활성</th>
+                <th>생성일</th>
+                <th>상세</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers %}
+            <tr>
+                <td>{{ customer.customer_id }}</td>
+                <td>{{ customer.first_name }}</td>
+                <td>{{ customer.last_name }}</td>
+                <td>{{ customer.email|default:"-" }}</td>
+                <td>{{ customer.store }}</td>
+                <td>{{ customer.active }}</td>
+                <td>{{ customer.create_date|date:"Y-m-d" }}</td>
+                <td><a href="{% url 'sakila_app:customer_detail' customer.customer_id %}" class="button">상세보기</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8" style="text-align: center;">데이터가 없습니다.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if is_paginated %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page=1">처음</a>
+        <a href="?page={{ page_obj.previous_page_number }}">이전</a>
+    {% endif %}
+
+    <span class="current">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">다음</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">마지막</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}
