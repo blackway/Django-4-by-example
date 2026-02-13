@@ -1,7 +1,16 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from . import views
 
 app_name = 'sakila_app'
+
+# API Router setup
+router = DefaultRouter()
+router.register(r'films', views.FilmViewSet, basename='api-film')
+router.register(r'actors', views.ActorViewSet, basename='api-actor')
+router.register(r'categories', views.CategoryViewSet, basename='api-category')
+router.register(r'customers', views.CustomerViewSet, basename='api-customer')
+router.register(r'stores', views.StoreViewSet, basename='api-store')
 
 urlpatterns = [
     # Home
@@ -58,4 +67,7 @@ urlpatterns = [
     # Country URLs
     path('countries/', views.CountryListView.as_view(), name='country_list'),
     path('countries/<int:pk>/', views.CountryDetailView.as_view(), name='country_detail'),
+
+    # API URLs - prefix with 'api'
+    path('api/', include(router.urls)),
 ]

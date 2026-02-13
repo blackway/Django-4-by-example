@@ -1,18 +1,44 @@
-{% extends 'sakila_app/base.html' %}
+{% extends "sakila_app/base.html" %}
 
-{% block title %}Sakila Database - Home{% endblock %}
+{% block title %}Home - {% endblock title %}
 
 {% block content %}
-<h1>Sakila Database Management System</h1>
-<p style="margin-bottom: 2rem; color: #7f8c8d;">영화 대여점 데이터베이스 관리 시스템입니다. 아래에서 각 테이블의 데이터를 조회할 수 있습니다.</p>
+<div class="container">
+    <section class="hero" style="text-align: center; padding: 3rem 0; background: linear-gradient(135deg, var(--primary-color), #7c3aed); color: white; border-radius: var(--radius-lg); margin-bottom: 3rem;">
+        <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Welcome to Sakila Movie Rental</h1>
+        <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">Explore our collection of 1,000+ movies</p>
+        <div style="max-width: 600px; margin: 0 auto; display: flex; gap: 0.5rem;">
+            <a href="/films/" class="btn" style="background-color: var(--card-bg); color: var(--primary-color); padding: 0.75rem 2rem; border-radius: var(--radius-md); font-weight: 600;">Browse Films</a>
+        </div>
+    </section>
 
-<div class="grid">
-    {% for model in models %}
-    <div class="grid-item">
-        <h3>{{ model.name }}</h3>
-        <p style="color: #7f8c8d; margin-bottom: 1rem;">총 <span class="badge">{{ model.count }}</span> 개</p>
-        <a href="{% url 'sakila_app:'|add:model.url %}">조회하기 →</a>
-    </div>
-    {% endfor %}
+    <section class="row" style="margin-bottom: 3rem;">
+        {% for model in models %}
+        <div class="col-lg-3 col-md-4 col-sm-6" style="margin-bottom: 2rem;">
+            <div class="card stat-card">
+                <div class="stat-icon">
+                    {% if model.name == 'Films' %}🎬
+                    {% elif model.name == 'Actors' %}👥
+                    {% elif model.name == 'Customers' %}👤
+                    {% elif model.name == 'Categories' %}🎞
+                    {% elif model.name == 'Languages' %}🌍
+                    {% elif model.name == 'Stores' %}🏪
+                    {% elif model.name == 'Staff' %}👨
+                    {% elif model.name == 'Rentals' %}📅
+                    {% elif model.name == 'Inventory' %}📦
+                    {% elif model.name == 'Payments' %}💰
+                    {% elif model.name == 'Addresses' %}📍
+                    {% elif model.name == 'Cities' %}🏙️
+                    {% elif model.name == 'Countries' %}🌎
+                    {% endif %}
+                </div>
+                <div class="stat-info">
+                    <h3 style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem;">{{ model.name }}</h3>
+                    <p class="stat-value">{{ model.count }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
 </div>
-{% endblock %}
+{% endblock content %}

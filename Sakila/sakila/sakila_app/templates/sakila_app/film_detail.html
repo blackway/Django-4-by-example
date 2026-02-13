@@ -1,99 +1,70 @@
-{% extends 'sakila_app/base.html' %}
+{% extends "sakila_app/base.html" %}
+{% load static %}
 
-{% block title %}{{ film.title }} - Sakila{% endblock %}
+{% block title %}{{ film.title }} - {% endblock title %}
 
 {% block content %}
-<h1>영화 상세 정보</h1>
+<div class="container" style="max-width: 900px;">
+    <nav style="margin-bottom: 2rem;">
+        <a href="/films/" style="color: var(--text-secondary);">&laquo; Back to Films</a>
+    </nav>
 
-<div class="card">
-    <h2>{{ film.title }}</h2>
-    <table>
-        <tr>
-            <th style="width: 200px;">ID</th>
-            <td>{{ film.film_id }}</td>
-        </tr>
-        <tr>
-            <th>제목</th>
-            <td>{{ film.title }}</td>
-        </tr>
-        <tr>
-            <th>설명</th>
-            <td>{{ film.description|default:"설명 없음" }}</td>
-        </tr>
-        <tr>
-            <th>개봉년도</th>
-            <td>{{ film.release_year|default:"-" }}</td>
-        </tr>
-        <tr>
-            <th>언어</th>
-            <td>{{ film.language }}</td>
-        </tr>
-        <tr>
-            <th>원본 언어</th>
-            <td>{{ film.original_language|default:"-" }}</td>
-        </tr>
-        <tr>
-            <th>대여 기간</th>
-            <td>{{ film.rental_duration }}일</td>
-        </tr>
-        <tr>
-            <th>대여료</th>
-            <td>${{ film.rental_rate }}</td>
-        </tr>
-        <tr>
-            <th>길이</th>
-            <td>{{ film.length|default:"-" }}분</td>
-        </tr>
-        <tr>
-            <th>교체 비용</th>
-            <td>${{ film.replacement_cost }}</td>
-        </tr>
-        <tr>
-            <th>등급</th>
-            <td>{{ film.rating|default:"-" }}</td>
-        </tr>
-        <tr>
-            <th>특별 기능</th>
-            <td>{{ film.special_features|default:"-" }}</td>
-        </tr>
-        <tr>
-            <th>마지막 업데이트</th>
-            <td>{{ film.last_update|date:"Y-m-d H:i:s" }}</td>
-        </tr>
-    </table>
+    <section style="text-align: center; margin-bottom: 3rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 3rem 2rem; border-radius: var(--radius-lg);">
+        <div style="width: 200px; height: 200px; background: rgba(255,255,255,0.2); display: inline-flex; align-items: center; justify-content: center; font-size: 5rem; border-radius: var(--radius-lg); margin-bottom: 1rem;">
+            {{ film.title|slice:":2" }}
+        </div>
+        <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">{{ film.title }}</h1>
+        <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+            {% for cat in film.categories.all %}
+            <span class="badge" style="background-color: rgba(255,255,255,0.2);">{{ cat.name }}</span>
+            {% endfor %}
+        </div>
+    </section>
 
-    <div style="margin-top: 1rem;">
-        <a href="{% url 'sakila_app:film_list' %}" class="button">목록으로</a>
+    <div class="row">
+        <div class="col-md-8">
+            <section class="card" style="margin-bottom: 2rem;">
+                <div class="card-body">
+                    <h2>Description</h2>
+                    <p style="color: var(--text-secondary); line-height: 1.8;">{{ film.description }}</p>
+                </div>
+            </section>
+
+            <section class="card">
+                <div class="card-body">
+                    <h2>Cast</h2>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                        {% for actor in film.actors.all|slice:":10" %}
+                        <span class="badge badge-secondary">{{ actor.first_name }} {{ actor.last_name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="col-md-4">
+            <section class="card" style="margin-bottom: 2rem;">
+                <div class="card-body">
+                    <h3>Film Information</h3>
+                    <dl style="display: grid; grid-template-columns: auto 1fr; gap: 0.75rem;">
+                        <dt style="font-weight: 600;">Release Year:</dt>
+                        <dd>{{ film.release_year }}</dd>
+                        <dt style="font-weight: 600;">Language:</dt>
+                        <dd>{{ film.language.name }}</dd>
+                        <dt style="font-weight: 600;">Duration:</dt>
+                        <dd>{% if film.length %}{{ film.length }} min{% else %}N/A{% endif %}</dd>
+                        <dt style="font-weight: 600;">Rating:</dt>
+                        <dd><span class="badge badge-{{ film.rating|lower }}">{{ film.rating }}</span></dd>
+                        <dt style="font-weight: 600;">Rental Duration:</dt>
+                        <dd>{{ film.rental_duration }} days</dd>
+                        <dt style="font-weight: 600;">Rental Rate:</dt>
+                        <dd style="font-size: 1.25rem; font-weight: 700; color: var(--primary-color);">${{ film.rental_rate }}</dd>
+                        <dt style="font-weight: 600;">Replacement Cost:</dt>
+                        <dd>${{ film.replacement_cost }}</dd>
+                    </dl>
+                </div>
+            </section>
+        </div>
     </div>
 </div>
-
-<div class="card">
-    <h3>출연 배우</h3>
-    {% with actors=film.film_actors.all %}
-        {% if actors %}
-            <ul>
-            {% for film_actor in actors %}
-                <li><a href="{% url 'sakila_app:actor_detail' film_actor.actor.actor_id %}">{{ film_actor.actor }}</a></li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <p>출연 배우 정보가 없습니다.</p>
-        {% endif %}
-    {% endwith %}
-</div>
-
-<div class="card">
-    <h3>카테고리</h3>
-    {% with categories=film.film_categories.all %}
-        {% if categories %}
-            <ul>
-            {% for film_category in categories %}
-                <li><a href="{% url 'sakila_app:category_detail' film_category.category.category_id %}">{{ film_category.category }}</a></li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <p>카테고리 정보가 없습니다.</p>
-        {% endif %}
-    {% endwith %}
-</div>
-{% endblock %}
+{% endblock content %}

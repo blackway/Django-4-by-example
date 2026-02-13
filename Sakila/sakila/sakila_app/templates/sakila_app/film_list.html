@@ -1,58 +1,56 @@
-{% extends 'sakila_app/base.html' %}
+{% extends "sakila_app/base.html" %}
+{% load static %}
 
-{% block title %}Films - Sakila{% endblock %}
+{% block title %}Films - {% endblock title %}
 
 {% block content %}
-<h1>영화 목록</h1>
+<div class="container">
+    <section style="text-align: center; margin-bottom: 3rem;">
+        <h1>Film Catalog</h1>
+        <p style="color: var(--text-secondary);">Browse our complete collection of films</p>
+    </section>
 
-<div class="card">
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>제목</th>
-                <th>개봉년도</th>
-                <th>언어</th>
-                <th>대여료</th>
-                <th>길이(분)</th>
-                <th>등급</th>
-                <th>상세</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for film in films %}
-            <tr>
-                <td>{{ film.film_id }}</td>
-                <td>{{ film.title }}</td>
-                <td>{{ film.release_year|default:"-" }}</td>
-                <td>{{ film.language }}</td>
-                <td>${{ film.rental_rate }}</td>
-                <td>{{ film.length|default:"-" }}</td>
-                <td>{{ film.rating|default:"-" }}</td>
-                <td><a href="{% url 'sakila_app:film_detail' film.film_id %}" class="button">상세보기</a></td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="8" style="text-align: center;">데이터가 없습니다.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+    <div class="row">
+        {% for film in films %}
+        <div class="col-lg-3 col-md-4 col-sm-6" style="margin-bottom: 2rem;">
+            <div class="card film-card" onclick="window.location='/films/{{ film.film_id }}/'" style="cursor: pointer;">
+                <div class="film-poster">
+                    {{ film.title|slice:":2" }}
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">{{ film.title }}</h3>
+                    <div class="film-meta" style="margin-bottom: 1rem;">
+                        {% for cat in film.categories.all|slice:":3" %}
+                        <span class="badge badge-primary">{{ cat.name }}</span>
+                        {% endfor %}
+                    </div>
+                    <p class="film-description">{{ film.description|truncatewords:15 }}</p>
+                    <div class="card-footer">
+                        <span style="font-size: 1.25rem; font-weight: 700; color: var(--primary-color);">${{ film.rental_rate }}</span>
+                        <span class="badge badge-{{ film.rating|lower }}">{{ film.rating }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 
-{% if is_paginated %}
-<div class="pagination">
-    {% if page_obj.has_previous %}
-        <a href="?page=1">처음</a>
-        <a href="?page={{ page_obj.previous_page_number }}">이전</a>
-    {% endif %}
-
-    <span class="current">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
-
-    {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">다음</a>
-        <a href="?page={{ page_obj.paginator.num_pages }}">마지막</a>
+    {% if is_paginated %}
+    <section class="pagination">
+        {% if page_obj.has_previous %}
+        <a href="?page=1" class="pagination-link">&laquo; First</a>
+        <a href="?page={{ page_obj.previous_page_number }}" class="pagination-link">&lsaquo; Previous</a>
+        {% endif %}
+        
+        <span class="pagination-link active">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+        
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="pagination-link">Next &rsaquo;</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}" class="pagination-link">Last &raquo;</a>
+        {% endif %}
+    </section>
     {% endif %}
 </div>
-{% endif %}
-{% endblock %}
+{% endblock content %}

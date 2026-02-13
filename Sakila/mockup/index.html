@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sakila - Movie Rental System</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>Sakila</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="films.html">Films</a></li>
+                <li><a href="actors.html">Actors</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="customers.html">Customers</a></li>
+                <li><a href="rentals.html">Rentals</a></li>
+                <li><a href="stores.html">Stores</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero">
+                <h2>Welcome to Sakila Movie Rental</h2>
+                <p>Explore our collection of 1,000+ movies</p>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search films by title, actor, or category...">
+                    <button id="searchBtn">Search</button>
+                </div>
+            </section>
+
+            <!-- Statistics Cards -->
+            <section class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-icon">🎬</div>
+                    <div class="stat-info">
+                        <h3>Total Films</h3>
+                        <p class="stat-value">1,000</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-info">
+                        <h3>Actors</h3>
+                        <p class="stat-value">200</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🏪</div>
+                    <div class="stat-info">
+                        <h3>Stores</h3>
+                        <p class="stat-value">2</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👤</div>
+                    <div class="stat-info">
+                        <h3>Customers</h3>
+                        <p class="stat-value">599</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Films -->
+            <section class="featured-section">
+                <h2>Featured Films</h2>
+                <div class="film-grid" id="featuredFilms">
+                    <!-- Films will be loaded dynamically -->
+                </div>
+            </section>
+
+            <!-- Categories -->
+            <section class="categories-section">
+                <h2>Browse by Category</h2>
+                <div class="category-grid">
+                    <a href="films.html?category=Action" class="category-card">
+                        <span class="category-icon">💥</span>
+                        <span class="category-name">Action</span>
+                    </a>
+                    <a href="films.html?category=Animation" class="category-card">
+                        <span class="category-icon">🎨</span>
+                        <span class="category-name">Animation</span>
+                    </a>
+                    <a href="films.html?category=Comedy" class="category-card">
+                        <span class="category-icon">😂</span>
+                        <span class="category-name">Comedy</span>
+                    </a>
+                    <a href="films.html?category=Drama" class="category-card">
+                        <span class="category-icon">🎭</span>
+                        <span class="category-name">Drama</span>
+                    </a>
+                    <a href="films.html?category=Horror" class="category-card">
+                        <span class="category-icon">👻</span>
+                        <span class="category-name">Horror</span>
+                    </a>
+                    <a href="films.html?category=Sci-Fi" class="category-card">
+                        <span class="category-icon">🚀</span>
+                        <span class="category-name">Sci-Fi</span>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Sakila Movie Rental System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
