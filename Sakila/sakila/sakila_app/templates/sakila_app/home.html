@@ -4,41 +4,83 @@
 
 {% block content %}
 <div class="container">
-    <section class="hero" style="text-align: center; padding: 3rem 0; background: linear-gradient(135deg, var(--primary-color), #7c3aed); color: white; border-radius: var(--radius-lg); margin-bottom: 3rem;">
-        <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Welcome to Sakila Movie Rental</h1>
-        <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">Explore our collection of 1,000+ movies</p>
-        <div style="max-width: 600px; margin: 0 auto; display: flex; gap: 0.5rem;">
-            <a href="/films/" class="btn" style="background-color: var(--card-bg); color: var(--primary-color); padding: 0.75rem 2rem; border-radius: var(--radius-md); font-weight: 600;">Browse Films</a>
-        </div>
-    </section>
+    <!-- Hero Section -->
+    <section class="hero-section" style="text-align: center; padding: 4rem 2rem; margin-bottom: 4rem;">
+        <div class="morph-shape" style="background: var(--primary-gradient); padding: 3rem 2rem; border-radius: var(--radius-xl); position: relative; overflow: hidden;">
+            <!-- Animated Background Orbs -->
+            <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); animation: bgOrb 15s ease-in-out infinite;"></div>
+            <div style="position: absolute; top: 20%; right: 10%; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%; filter: blur(40px); animation: float 8s ease-in-out infinite;"></div>
+            <div style="position: absolute; bottom: 20%; left: 10%; width: 80px; height: 80px; background: rgba(255,255,255,0.08); border-radius: 50%; filter: blur(30px); animation: float 10s ease-in-out infinite reverse;"></div>
 
-    <section class="row" style="margin-bottom: 3rem;">
-        {% for model in models %}
-        <div class="col-lg-3 col-md-4 col-sm-6" style="margin-bottom: 2rem;">
-            <div class="card stat-card">
-                <div class="stat-icon">
-                    {% if model.name == 'Films' %}🎬
-                    {% elif model.name == 'Actors' %}👥
-                    {% elif model.name == 'Customers' %}👤
-                    {% elif model.name == 'Categories' %}🎞
-                    {% elif model.name == 'Languages' %}🌍
-                    {% elif model.name == 'Stores' %}🏪
-                    {% elif model.name == 'Staff' %}👨
-                    {% elif model.name == 'Rentals' %}📅
-                    {% elif model.name == 'Inventory' %}📦
-                    {% elif model.name == 'Payments' %}💰
-                    {% elif model.name == 'Addresses' %}📍
-                    {% elif model.name == 'Cities' %}🏙️
-                    {% elif model.name == 'Countries' %}🌎
-                    {% endif %}
-                </div>
-                <div class="stat-info">
-                    <h3 style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem;">{{ model.name }}</h3>
-                    <p class="stat-value">{{ model.count }}</p>
+            <div style="position: relative; z-index: 1;">
+                <h1 class="glow-text" style="font-size: 3.5rem; margin-bottom: 1rem; font-weight: 800;">Welcome to Sakila</h1>
+                <p class="fade-in" style="font-size: 1.4rem; margin-bottom: 2.5rem; opacity: 0.95; font-weight: 300;">Your Premium Movie Rental Experience</p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="/films/" class="btn btn-primary btn-lg btn-magnetic" style="padding: 1rem 2.5rem; border-radius: var(--radius-xl);">
+                        🎬 Browse Films
+                    </a>
+                    <a href="/actors/" class="btn btn-secondary btn-lg" style="padding: 1rem 2.5rem; border-radius: var(--radius-xl);">
+                        👥 View Actors
+                    </a>
                 </div>
             </div>
         </div>
-        {% endfor %}
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <h2 class="text-center mb-3" style="font-size: 2rem; margin-bottom: 2rem;">Library Overview</h2>
+        <div class="row" style="margin-bottom: 3rem;">
+            {% for model in models %}
+            <div class="col-lg-3 col-md-4 col-sm-6" style="margin-bottom: 2rem;">
+                <div class="card stat-card gradient-border scroll-reveal" style="animation-delay: {{ forloop.counter0 }}00ms;">
+                    <div class="stat-icon float-element" style="animation-delay: {{ forloop.counter0 }}500ms;">
+                        {% if model.name == 'Films' %}🎬
+                        {% elif model.name == 'Actors' %}👥
+                        {% elif model.name == 'Customers' %}👤
+                        {% elif model.name == 'Categories' %}🎞
+                        {% elif model.name == 'Languages' %}🌍
+                        {% elif model.name == 'Stores' %}🏪
+                        {% elif model.name == 'Staff' %}👨
+                        {% elif model.name == 'Rentals' %}📅
+                        {% elif model.name == 'Inventory' %}📦
+                        {% elif model.name == 'Payments' %}💰
+                        {% elif model.name == 'Addresses' %}📍
+                        {% elif model.name == 'Cities' %}🏙️
+                        {% elif model.name == 'Countries' %}🌎
+                        {% endif %}
+                    </div>
+                    <div class="stat-info">
+                        <h3 style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; text-transform: uppercase; letter-spacing: 0.05em;">{{ model.name }}</h3>
+                        <p class="stat-value">{{ model.count }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </section>
 </div>
+
+<!-- Scroll Reveal Script -->
+<script>
+    // Simple scroll reveal animation
+    document.addEventListener('DOMContentLoaded', function() {
+        const reveals = document.querySelectorAll('.scroll-reveal');
+
+        function revealOnScroll() {
+            const windowHeight = window.innerHeight;
+            reveals.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const revealPoint = 150;
+
+                if (elementTop < windowHeight - revealPoint) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Initial check
+    });
+</script>
 {% endblock content %}
